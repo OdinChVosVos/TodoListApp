@@ -1,0 +1,22 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  todolist:
+    build:
+      context: "C:\\Users\\fedor\\Desktop\\ToDoList"
+      dockerfile: "ToDoList/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/ToDoList.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_STATICWEBASSETS: "/app/bin/Debug/net9.0/ToDoList.staticwebassets.runtime.CT.json"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "todolist:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\fedor\\Desktop\\ToDoList\\ToDoList:/app:rw"
+    - "C:\\Users\\fedor\\Desktop\\ToDoList:/src:rw"
+    - "C:\\Users\\fedor\\.nuget\\packages:/home/app/.nuget/packages"
+    working_dir: "/app"
