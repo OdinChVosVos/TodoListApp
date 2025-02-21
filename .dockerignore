@@ -1,11 +1,11 @@
 ﻿**/.dockerignore
-**/.env
 **/.git
 **/.gitignore
 **/.project
 **/.settings
 **/.toolstarget
 **/.vs
+**/.env
 **/.vscode
 **/.idea
 **/*.*proj.user

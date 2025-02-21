@@ -1,0 +1,44 @@
+﻿@model TodoItem
+
+@{
+    ViewData["Title"] = "Create Todo";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white text-center">
+                    <h4>Create Todo</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="TodoCreate" method="post">
+                        <div class="form-group mb-3">
+                            <label for="Name">Name</label>
+                            <input asp-for="Name" class="form-control" id="Name" placeholder="Enter Todo Name" />
+                        </div>
+
+                        <!-- Category Drop-down -->
+                        <div class="form-group mb-3">
+                            <label for="CategoryId">Category</label>
+                            <select asp-for="CategoryId" class="form-control" id="CategoryId">
+                                <option value="">Select Category</option>
+                                @foreach (var category in ViewBag.Categories as SelectList)
+                                {
+                                    <option value="@category.Value">@category.Text</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success btn-lg">Create</button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <a asp-action="TodoList" class="btn btn-secondary btn-lg">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

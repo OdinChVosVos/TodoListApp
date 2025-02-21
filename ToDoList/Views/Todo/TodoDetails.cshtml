@@ -1,0 +1,30 @@
+﻿@model TodoItem
+
+@{
+    ViewData["Title"] = "Todo Details";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm p-4">
+        <h2 class="text-center mb-4">Todo Details</h2>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>ID:</strong> @Model.Id</li>
+            <li class="list-group-item"><strong>Name:</strong> @Model.Name</li>
+            <li class="list-group-item"><strong>Category:</strong> @Model.Category.Title</li>
+            <li class="list-group-item">
+                <strong>Completed:</strong>
+                <span class="badge @(Model.IsComplete ? "bg-success" : "bg-danger")">
+                    @(Model.IsComplete ? "Yes" : "No")
+                </span>
+            </li>
+        </ul>
+        <div class="mt-4 text-center">
+            <a asp-action="TodoList" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Include Bootstrap Icons & Font Awesome (if needed) -->
+

@@ -1,0 +1,54 @@
+﻿@model TodoItem
+
+@{
+    ViewData["Title"] = "Edit Todo";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-white text-center">
+                    <h4>Edit Todo</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="TodoEdit" method="POST">
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="form-group mb-3">
+                            <label for="Name" class="form-label">Name</label>
+                            <input asp-for="Name" class="form-control" id="Name" placeholder="Enter Todo Name" />
+                        </div>
+
+                        <!-- Category Drop-down -->
+                        <div class="form-group mb-3">
+                            <label for="CategoryId" class="form-label">Category</label>
+                            <select asp-for="CategoryId" class="form-control" id="CategoryId">
+                                <option value="">Select Category</option>
+                                @foreach (var category in ViewBag.Categories as SelectList)
+                                {
+                                    <option value="@category.Value">@category.Text</option>
+                                }
+                            </select>
+                        </div>
+
+
+                        <div class="form-check mb-3">
+                            <input asp-for="IsComplete" class="form-check-input" type="checkbox" id="IsComplete" />
+                            <label class="form-check-label" for="IsComplete">Completed</label>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-warning btn-lg">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                            <a asp-action="TodoList" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

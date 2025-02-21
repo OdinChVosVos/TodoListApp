@@ -1,8 +1,17 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "To-Do List Welcome";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="jumbotron text-center bg-primary text-white rounded shadow-lg">
+        <h1 class="display-4 animated fadeInDown">Welcome to Your To-Do List!</h1>
+        <p class="lead animated fadeInUp delay-1s">Get organized and stay productive.</p>
+        <hr class="my-4">
+        <p class="animated zoomIn delay-2s">Ready to start managing your tasks?</p>
+        <a class="btn btn-light btn-lg animated pulse infinite delay-3s"
+           asp-controller="Todo"
+           asp-action="TodoList"
+           role="button"
+        >Go to My Tasks</a>
+    </div>
 </div>

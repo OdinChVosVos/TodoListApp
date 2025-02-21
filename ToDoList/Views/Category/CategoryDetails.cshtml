@@ -1,0 +1,23 @@
+﻿@model ItemCategory
+
+@{
+    ViewData["Title"] = "Category Details";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm p-4">
+        <h2 class="text-center mb-4">Category Details</h2>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>ID:</strong> @Model.Id</li>
+            <li class="list-group-item"><strong>Title:</strong> @Model.Title</li>
+        </ul>
+        <div class="mt-4 text-center">
+            <a asp-action="CategoryList" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Include Bootstrap Icons & Font Awesome (if needed) -->
+
