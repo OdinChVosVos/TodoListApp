@@ -15,4 +15,16 @@ public class TodoContext : IdentityDbContext
     {
         Database.EnsureCreated();
     }
+    
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<TodoItem>()
+            .HasOne(t => t.Category)
+            .WithMany(c => c.TodoItems)
+            .HasForeignKey(t => t.CategoryId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        base.OnModelCreating(modelBuilder);
+    }
 }

@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using ToDoList.Data;
 using ToDoList.Models;
 
 namespace ToDoList.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly TodoContext _context;
@@ -15,17 +17,37 @@ namespace ToDoList.Controllers
             _context = context;
         }
 
+        
+        private string GetUserId()
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+    
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new UnauthorizedAccessException("User is not authenticated.");
+            }
+    
+            return userId;
+        }
 
         public async Task<IActionResult> CategoryList()
         {
-            var items = await _context.ItemCategory.ToListAsync();
+            var userId = GetUserId();
+            
+            var items = await _context.ItemCategory
+                .Where(t => t.UserId == userId)
+                .ToListAsync();
             return View(items);
         }
         
         
         public async Task<IActionResult> CategoryDetails(long id)
         {
-            var item = await _context.ItemCategory.FindAsync(id);
+            var userId = GetUserId();
+            
+            var item = await _context.ItemCategory
+                .Where(t => t.UserId == userId)
+                .FirstOrDefaultAsync(t => t.Id == id);
             if (item == null)
                 return NotFound();
             return View(item);
@@ -41,19 +63,23 @@ namespace ToDoList.Controllers
         [HttpPost]
         public async Task<IActionResult> CategoryCreate(ItemCategory category)
         {
-            if (ModelState.IsValid)
-            {
-                _context.ItemCategory.Add(category);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("CategoryList", "Category");
-            }
-            return View(category);
+            var userId = GetUserId();
+            category.UserId = userId;
+            
+            _context.ItemCategory.Add(category);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("CategoryList", "Category");
         }
 
 
         public async Task<IActionResult> CategoryEdit(long id)
         {
-            var item = await _context.ItemCategory.FindAsync(id);
+            var userId = GetUserId();
+            
+            var item = await _context.ItemCategory
+                .Where(c => c.UserId == userId)
+                .FirstOrDefaultAsync(t => t.Id == id);
+            
             if (item == null)
                 return NotFound();
             return View(item);
@@ -62,7 +88,9 @@ namespace ToDoList.Controllers
         [HttpPost]
         public async Task<IActionResult> CategoryEdit(long id, ItemCategory category)
         {
-            if (id != category.Id)
+            var userId = GetUserId();
+            
+            if (id != category.Id || category.UserId != userId)
                 return BadRequest();
 
             _context.Entry(category).State = EntityState.Modified;
@@ -71,11 +99,13 @@ namespace ToDoList.Controllers
             return RedirectToAction("CategoryList");
         }
 
-        // Show delete confirmation page
+        
         public async Task<IActionResult> CategoryDelete(long id)
         {
+            var userId = GetUserId();
+            
             var item = await _context.ItemCategory.FindAsync(id);
-            if (item == null)
+            if (item == null || item.UserId != userId)
                 return NotFound();
             return View(item);
         }
@@ -83,8 +113,10 @@ namespace ToDoList.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
+            var userId = GetUserId();
+            
             var item = await _context.ItemCategory.FindAsync(id);
-            if (item != null)
+            if (item != null && item.UserId == userId)
             {
                 _context.ItemCategory.Remove(item);
                 await _context.SaveChangesAsync();

@@ -10,7 +10,7 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>ID:</strong> @Model.Id</li>
             <li class="list-group-item"><strong>Name:</strong> @Model.Name</li>
-            <li class="list-group-item"><strong>Category:</strong> @Model.Category.Title</li>
+            <li class="list-group-item"><strong>Category:</strong> @Model.Category?.Title</li>
             <li class="list-group-item">
                 <strong>Completed:</strong>
                 <span class="badge @(Model.IsComplete ? "bg-success" : "bg-danger")">
