@@ -9,6 +9,9 @@
         <h2 class="text-center mb-4">Edit Category</h2>
         <form asp-action="CategoryEdit" method="POST">
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="UserId" />
+            
+            
             <div class="mb-3">
                 <label class="form-label">Title</label>
                 <input asp-for="Title" class="form-control" />
